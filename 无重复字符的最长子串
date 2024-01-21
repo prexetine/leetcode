@@ -1,38 +1,26 @@
 //给定一个字符串s，请你找出其中不含有重复字符的最长子串的长度
 
-import java.util.HashMap;
-
 class Solution {
-    public int lengthOfLongestSubstring(String s) {
-        int n = s.length();
-        HashMap<Character, Integer> charIndexMap = new HashMap<>();
-        int maxLength = 0;
-        int start = 0;
-
-        for (int end = 0; end < n; end++) {
-            char currentChar = s.charAt(end);
-
-            if (charIndexMap.containsKey(currentChar) && charIndexMap.get(currentChar) >= start) {
-                
-                start = charIndexMap.get(currentChar) + 1;
-            
+public:
+    int lengthOfLongestSubstring(string s) {
+        vector<int>ve(256,0);
+        int pa=0,pb=0;
+        int len=0;
+        while(pb<s.size())
+        {
+            if(ve[s[pb]]==0)
+            {
+                ve[s[pb]]=1;
+                pb++;
             }
-
-            
-            charIndexMap.put(currentChar, end);
-
-            
-            maxLength = Math.max(maxLength, end - start + 1);
+            else
+            {
+                len=max(len,pb-pa);
+                ve[s[pa]]=0;
+                pa++;
+            }
         }
-
-        return maxLength;
+        len=max(len,pb-pa);
+        return len;
     }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        String s = "abcabcbb";
-        int result = new Solution().lengthOfLongestSubstring(s);
-        System.out.println(result);  // 输出: 3
-    }
-}
+};
