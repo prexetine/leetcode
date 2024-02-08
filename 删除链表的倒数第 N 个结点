@@ -1,0 +1,39 @@
+//给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        // 创建一个虚拟头结点，简化边界情况的处理
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+
+        ListNode* first = dummy;
+        ListNode* second = dummy;
+
+        // 将 first 指针移到链表末尾的位置
+        for (int i = 0; i <= n; ++i) {
+            first = first->next;
+        }
+
+        // 同时移动 first 和 second 指针，直到 first 到达链表末尾
+        while (first != nullptr) {
+            first = first->next;
+            second = second->next;
+        }
+
+        // 删除倒数第 n 个节点
+        second->next = second->next->next;
+
+        return dummy->next;
+    }
+};
