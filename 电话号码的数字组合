@@ -1,0 +1,52 @@
+/*
+给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。
+
+给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母*/
+
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        vector<string> result;
+
+        if (digits.empty()) {
+            return result;
+        }
+
+        // 建立数字与字母的映射表
+        unordered_map<char, string> digitToLetters = {
+            {'2', "abc"},
+            {'3', "def"},
+            {'4', "ghi"},
+            {'5', "jkl"},
+            {'6', "mno"},
+            {'7', "pqrs"},
+            {'8', "tuv"},
+            {'9', "wxyz"}
+        };
+
+        // 初始化结果为一个空字符串
+        result.push_back("");
+
+        // 遍历每个数字
+        for (char digit : digits) {
+            // 获取当前数字对应的字母集合
+            string letters = digitToLetters[digit];
+            // 保存当前结果的大小，后续将向结果中添加新的组合
+            int size = result.size();
+
+            // 遍历当前结果，为每个已有的组合添加新的字母
+            for (int i = 0; i < size; ++i) {
+                // 对当前组合添加当前数字对应的每个字母
+                for (char letter : letters) {
+                    // 添加新的组合到结果中
+                    result.push_back(result[i] + letter);
+                }
+            }
+
+            // 前 size 个组合已经添加了当前数字对应的所有字母，可以删除它们
+            result.erase(result.begin(), result.begin() + size);
+        }
+
+        return result;
+    }
+};
