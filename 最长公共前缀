@@ -1,0 +1,33 @@
+//编写一个函数来查找字符串数组中的最长公共前缀。
+//如果不存在公共前缀，返回空字符串 ""
+
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        if (strs.empty()) {
+            return "";
+        }
+
+        int minLength = INT_MAX;
+    
+        // 找到最短的字符串长度
+        for (const string& str : strs) {
+            minLength = min(minLength, static_cast<int>(str.length()));
+        }
+
+        // 逐个字符比较
+        for (int i = 0; i < minLength; ++i) {
+            char currentChar = strs[0][i];
+
+            for (int j = 1; j < strs.size(); ++j) {
+                if (strs[j][i] != currentChar) {
+                    // 当前字符不相同，返回当前已经匹配的前缀
+                    return strs[0].substr(0, i);
+                }
+            }
+        }
+
+        // 遍历完最短的字符串长度，返回整个最短字符串作为最长公共前缀
+        return strs[0].substr(0, minLength);
+    }
+};
